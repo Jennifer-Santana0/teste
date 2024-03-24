@@ -1,8 +1,9 @@
 const express = require('express')
 const path = require('path')
+const mongodb = require('mongoose')
+const model = require('./models/User')
 const app = express()
 
-const mongodb = require('mongoose')
 
 mongodb.connect('mongodb+srv://root:admin@cluster0.hs8z9ef.mongodb.net/').then(()=>{
     console.log('conectado')
@@ -24,8 +25,19 @@ app.get('/',(req,res)=>{
 app.get('/cadastro',(req,res)=>{
     res.render('cadastro')
 })
+
 app.get('/login',(req,res)=>{
     res.render('login')
+})
+
+app.post('/pegou', async(req,res)=>{
+    model.findOne({email:req.body.email}).then((user)=>{
+        console.log(user)
+        res.render('index')
+    }).catch((err)=>{
+        console.log('erro')
+    })
+    res.render('pegou')
 })
 
 app.listen(3000,()=>{
