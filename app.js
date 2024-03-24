@@ -23,21 +23,26 @@ app.get('/',(req,res)=>{
     res.render('cadastro')
 })
 
+app.get('/login',(req,res)=>{
+    res.render('login')
+})
+
 app.post('/index',(req,res)=>{
     Usuario.findOne({email:req.body.email}).then((user) => {
         if (user) {
-          console.log('Usuário encontrado:', user);
-          res.render('cadastro')
+            let id_user = user._id
+            res.render('index',{id_user})
         } else {
             console.log('Usuário não encontrado');
-            res.render('index')
+            res.render('cadastro')
         }
     }).catch((err) => {
         console.error('Erro durante a busca do usuário:', err);
     })
 })
 
-app.get('/cart/:produto/:preco', async(req,res)=>{ 
+app.post('/cart/:produto/:preco/:id_produto', async(req,res)=>{ 
+    console.log(req.params)
     await Cart.create(req.params)
     res.render('cart')
 })

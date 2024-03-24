@@ -10,10 +10,9 @@ const Cart = new Schema({
         type: Number,
         require: true
     },
-    email_produto: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
-        default: 'nao definido'
+    id_produto: {
+        type: String,
+        require: true
     },
 })
 
