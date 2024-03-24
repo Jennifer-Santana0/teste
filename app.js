@@ -1,7 +1,8 @@
 const express = require('express')
 const path = require('path')
 const mongodb = require('mongoose')
-const model = require('./models/User')
+const Usuario = require('./models/User')
+const Cart = require('./models/cart')
 const app = express()
 
 
@@ -19,25 +20,26 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/',(req,res)=>{
-    res.render('index')
-})
-
-app.get('/cadastro',(req,res)=>{
     res.render('cadastro')
 })
 
-app.get('/login',(req,res)=>{
-    res.render('login')
+app.post('/index',(req,res)=>{
+    Usuario.findOne({email:req.body.email}).then((user) => {
+        if (user) {
+          console.log('Usuário encontrado:', user);
+          res.render('cadastro')
+        } else {
+            console.log('Usuário não encontrado');
+            res.render('index')
+        }
+    }).catch((err) => {
+        console.error('Erro durante a busca do usuário:', err);
+    })
 })
 
-app.post('/pegou', async(req,res)=>{
-    model.findOne({email:req.body.email}).then((user)=>{
-        console.log(user)
-        res.render('index')
-    }).catch((err)=>{
-        console.log('erro')
-    })
-    res.render('pegou')
+app.get('/cart/:produto/:preco', async(req,res)=>{ 
+    await Cart.create(req.params)
+    res.render('cart')
 })
 
 app.listen(3000,()=>{
