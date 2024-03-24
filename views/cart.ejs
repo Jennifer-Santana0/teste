@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-   <p>cart</p>
+
+    <%for (let index = 0; index < produtos.length; index++) {%>
+        <div class="carts">
+            <h1><%=produtos[index].produto%></h1>
+            <h1><%=produtos[index].preco%></h1>
+        </div>
+        
+    <%}%>
+
+   
 </body>
 </html>

@@ -27,24 +27,43 @@ app.get('/login',(req,res)=>{
     res.render('login')
 })
 
-app.post('/index',(req,res)=>{
-    Usuario.findOne({email:req.body.email}).then((user) => {
-        if (user) {
-            let id_user = user._id
-            res.render('index',{id_user})
-        } else {
-            console.log('Usuário não encontrado');
+app.post('/index/cadastro',(req,res)=>{
+    Usuario.findOne({email:req.body.email}).then(async(user)=>{
+        if (user){
+            console.log('ja existe esse email')
             res.render('cadastro')
+        }else{
+            await Usuario.create(req.body)
+            Usuario.findOne({email:req.body.email}).then((user2)=>{
+                let id_user = user2._id
+                res.render('index',{id_user})
+            })
         }
-    }).catch((err) => {
-        console.error('Erro durante a busca do usuário:', err);
     })
 })
 
+app.post('/index/login',async(req,res)=>{
+    Usuario.findOne({email:req.body.email}).then((user)=>{
+        if (user){
+            let id_user = user._id
+            res.render('index',{id_user})
+        } else {
+            console.log('Conta não encontrado');
+            res.render('login')
+        }
+    })
+})
+
+
 app.post('/cart/:produto/:preco/:id_produto', async(req,res)=>{ 
-    console.log(req.params)
     await Cart.create(req.params)
-    res.render('cart')
+
+    Cart.find().then((produtos)=>{
+        res.render('cart', {produtos})
+    }).catch((err)=>{
+        res.render('index')
+        console.log(err)
+    })
 })
 
 app.listen(3000,()=>{
