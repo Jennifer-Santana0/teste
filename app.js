@@ -55,15 +55,21 @@ app.post('/index/login',async(req,res)=>{
 })
 
 
+
+
 app.post('/cart/:produto/:preco/:id_produto', async (req, res) => { 
     try {
         await Cart.create(req.params);
-        res.redirect('/cart/' + req.params.id_produto); 
     } catch (error) {
         console.error(error);
-        res.render('index');
+        res.status(500).send('Erro ao adicionar produto ao carrinho');
     }
 });
+
+
+
+
+
 
 app.get('/cart/:id_produto', async (req, res) => {
     try {
