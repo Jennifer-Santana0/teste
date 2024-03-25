@@ -55,16 +55,30 @@ app.post('/index/login',async(req,res)=>{
 })
 
 
-app.post('/cart/:produto/:preco/:id_produto', async(req,res)=>{ 
-    await Cart.create(req.params)
+app.post('/cart/:produto/:preco/:id_produto', async (req, res) => { 
+    try {
+        await Cart.create(req.params);
+        res.redirect('/cart/' + req.params.id_produto); 
+    } catch (error) {
+        console.error(error);
+        res.render('index');
+    }
+});
 
-    Cart.find().then((produtos)=>{
-        res.render('cart', {produtos})
-    }).catch((err)=>{
-        res.render('index')
-        console.log(err)
-    })
-})
+app.get('/cart/:id_produto', async (req, res) => {
+    try {
+        await Cart.find({ id_produto: req.params.id_produto }).then((produtos)=>{
+            res.render('cart', { produtos });
+        }).catch((err)=>{
+            console.log(err)
+        })
+    } catch (error) {
+        console.error(error);
+        res.render('index');
+    }
+});
+
+
 
 app.listen(3000,()=>{
     console.log('http://localhost:3000')
