@@ -63,7 +63,7 @@ app.post('/cart/:produto/:preco/:id_produto', async (req, res) => {
     }
 });
 
-app.get('/cart/:id_produto', async (req, res) => {
+app.post('/cart/:id_produto', async (req, res) => {
     try {
         await Cart.find({ id_produto: req.params.id_produto }).then((produtos)=>{
             res.render('cart', { produtos });

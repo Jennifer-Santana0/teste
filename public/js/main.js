@@ -32,6 +32,6 @@ addCarts.forEach((button) => {
         xhr.onerror = function() {
             console.error('Erro ao adicionar produto ao carrinho:', xhr.statusText);
         };
-        xhr.send(JSON.stringify(data));
+        xhr.send();
     });
 });
