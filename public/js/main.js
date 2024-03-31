@@ -35,3 +35,13 @@ addCarts.forEach((button) => {
         xhr.send();
     });
 });
+
+
+function showGif() {
+    var button = document.querySelector('.animation');
+    button.classList.add('show-gif'); // Adiciona a classe show-gif ao botão
+    setTimeout(function() {
+        button.classList.remove('show-gif'); // Remove a classe após um intervalo de tempo (se desejar que o GIF desapareça depois de um tempo)
+    }, 3000); // Tempo em milissegundos, 3000 = 3 segundos (você pode ajustar conforme necessário)
+    return false; // Para evitar que o formulário seja enviado
+}
