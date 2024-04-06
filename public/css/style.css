@@ -1,40 +1,26 @@
-body{
-    background-color: rgb(255, 255, 255);
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+.card{
+    border: 1px solid;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
 .cards{
-    width: 150px;
-    height: 150px;
     border: 1px solid;
-}
-.carts{
-    border: 1px solid;
-    padding: 20px;
-}
-
-.animation {
-    width: 100px;
-    height: 50px;
-    background-color: black;
-    color: white;
-    margin-top: 20px;
-    border: none; /* Remover a borda do botão */
-    cursor: pointer; /* Alterar o cursor para indicar que o botão é clicável */
-    overflow: hidden; /* Esconder a parte da imagem que estiver fora do botão */
-    position: relative; /* Adicionar posição relativa para que o ::after seja posicionado corretamente */
-}
-
-.animation::after {
-    content: url('../img/gif_carrinho.gif'); /* Definir o GIF como plano de fundo */
-    position: absolute; /* Posição absoluta para que a animação cubra todo o botão */
-    top: 50%; /* Ajustar para centrar verticalmente */
-    left: 50%; /* Ajustar para centrar horizontalmente */
-    transform: translate(-50%, -50%); /* Ajustar para centrar corretamente */
-    width: 235px; /* Definir a largura do GIF */
-    height: 249px; /* Definir a altura do GIF */
-    opacity: 0; /* Inicialmente, a animação é transparente */
-    transition: opacity 0.3s ease; /* Adicionar uma transição suave */
-}
-
-.show-gif::after {
-    opacity: 1; /* Quando a classe show-gif for adicionada ao botão, o GIF é exibido */
+    display: flex;
+    height: 100px;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-between;
 }

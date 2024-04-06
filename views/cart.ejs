@@ -7,15 +7,17 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    
 
-    <%for (let index = 0; index < produtos.length; index++) {%>
-        <div class="carts">
-            <h1><%=produtos[index].produto%></h1>
-            <h1><%=produtos[index].preco%></h1>
-            <h1><%=produtos[index].id_produto%></h1>
+    <%for (let index = 0; index < produto.length; index++) {%>
+        <div class="cards">
+            <h1><%= produto[index].nome %></h1>
+            <h2><%= produto[index].preco %></h2>
+            <input class="quantidade" type="number" min="1" value="<%=produto[index].quantidade%>">
+            <h3 class="preco_total"><%= produto[index].preco * produto[index].quantidade %></h3>
         </div>
     <%}%>
 
-   
+    <script src="/js/main.js"></script>
 </body>
 </html>

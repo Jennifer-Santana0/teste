@@ -1,7 +1,6 @@
 const express = require('express')
 const path = require('path')
 const mongodb = require('mongoose')
-const Usuario = require('./models/User')
 const Cart = require('./models/cart')
 const app = express()
 
@@ -13,68 +12,54 @@ mongodb.connect('mongodb+srv://root:admin@cluster0.hs8z9ef.mongodb.net/').then((
 })
 
 
-
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
 
 
 app.get('/',(req,res)=>{
-    res.render('cadastro')
+    res.render('index')
 })
 
-app.get('/login',(req,res)=>{
-    res.render('login')
-})
+app.post('/cartAdd/:nome/:preco', async(req, res) => {
+    await Cart.create(req.params).then(()=>{
+        console.log('o produto ja foi cadastrado')
+    }).catch(()=>{
+        console.log('Houve algum problema em cadastrar o produto')
+    })
+});
 
-app.post('/index/cadastro',(req,res)=>{
-    Usuario.findOne({email:req.body.email}).then(async(user)=>{
-        if (user){
-            console.log('ja existe esse email')
-            res.render('cadastro')
-        }else{
-            await Usuario.create(req.body)
-            Usuario.findOne({email:req.body.email}).then((user2)=>{
-                let id_user = user2._id
-                res.render('index',{id_user})
-            })
-        }
+app.post('/cart', async (req,res)=>{
+    await Cart.find().then((produto)=>{
+        res.render('cart', {produto})
+    }).catch((err)=>{
+        console.log('deu algum erro'+err)
     })
 })
 
-app.post('/index/login',async(req,res)=>{
-    Usuario.findOne({email:req.body.email}).then((user)=>{
-        if (user){
-            let id_user = user._id
-            res.render('index',{id_user})
-        } else {
-            console.log('Conta não encontrado');
-            res.render('login')
-        }
-    })
+app.post('/cartEdit/:nome/:quantidade', async (req,res)=>{
+    const nome = req.params.nome
+    const quantidade = parseFloat(req.params.quantidade)
+
+
+    try{
+        const produto = await Cart.findOne({nome:nome})
+        
+        const preco_total = quantidade * produto.preco
+        await Cart.updateOne({nome:nome}, {quantidade:quantidade})
+
+        res.status(200).json({newprecoTotal:preco_total})
+
+    }catch(err){
+        console.log('lago deu errado')
+    }
+
+    
 })
 
-app.post('/cart/:produto/:preco/:id_produto', async (req, res) => { 
-    try {
-        await Cart.create(req.params);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Erro ao adicionar produto ao carrinho');
-    }
-});
-
-app.post('/cart/:id_produto', async (req, res) => {
-    try {
-        await Cart.find({ id_produto: req.params.id_produto }).then((produtos)=>{
-            res.render('cart', { produtos });
-        }).catch((err)=>{
-            console.log(err)
-        })
-    } catch (error) {
-        console.error(error);
-        res.render('index');
-    }
-});
 
 
 

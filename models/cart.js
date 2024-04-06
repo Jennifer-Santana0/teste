@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Cart = new Schema({
-    produto: {
+    nome: {
         type: String,
         require: true
     },
@@ -10,10 +10,10 @@ const Cart = new Schema({
         type: Number,
         require: true
     },
-    id_produto: {
-        type: String,
-        require: true
-    },
+    quantidade: {
+        type: Number,
+        default: 1
+    }
 })
 
 module.exports = mongoose.model('cart',Cart)

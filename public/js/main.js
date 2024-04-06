@@ -1,47 +1,61 @@
-const addCarts = document.querySelectorAll('.addToCartButton');
+const btn_add = document.querySelectorAll('.add_cart')
 
-addCarts.forEach((button) => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
+btn_add.forEach((el)=>{
+    el.addEventListener('click',()=>{
+        const nome = el.parentNode.querySelector('h1').innerHTML
+        const preco = el.parentNode.querySelector('p').innerHTML
+        
 
-        let form = button.closest('form');
-        let rota = form.getAttribute('action');
-        let segments = rota.split('/');
+        const xhr = new XMLHttpRequest();
+       
+        xhr.open('POST', '/cartAdd/' + nome + '/' + preco);
+        xhr.setRequestHeader('Content-type', 'application/json');
 
-
-        let produto = segments[2];
-        let preco = segments[3];
-        let id_produto = segments[4];
-
-        let data = {
-            produto: produto,
-            preco: preco,
-            id_produto: id_produto
-        };
-
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', rota);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
+        xhr.onload = () => {
             if (xhr.status === 200) {
-                console.log('Produto adicionado ao carrinho com sucesso');
+                console.log('Foi enviado corretamente');
             } else {
-                console.error('Erro ao adicionar produto ao carrinho:', xhr.statusText);
+                console.log(xhr.statusText);
             }
         };
-        xhr.onerror = function() {
-            console.error('Erro ao adicionar produto ao carrinho:', xhr.statusText);
-        };
+
         xhr.send();
-    });
-});
+
+    })
+})
 
 
-function showGif() {
-    var button = document.querySelector('.animation');
-    button.classList.add('show-gif'); // Adiciona a classe show-gif ao botão
-    setTimeout(function() {
-        button.classList.remove('show-gif'); // Remove a classe após um intervalo de tempo (se desejar que o GIF desapareça depois de um tempo)
-    }, 3000); // Tempo em milissegundos, 3000 = 3 segundos (você pode ajustar conforme necessário)
-    return false; // Para evitar que o formulário seja enviado
-}
+const quantidade = document.querySelectorAll('.quantidade')
+
+quantidade.forEach((el)=>{
+    el.addEventListener('input',function(){
+        const nome = el.parentNode.querySelector('h1').innerHTML
+        let quantidade = this.value
+        
+
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', '/cartEdit/'+ nome + '/' + quantidade)
+        xhr.setRequestHeader('Content-type', 'application/json')
+
+        xhr.onload = () => {
+            if(xhr.status == 200){
+                const response = JSON.parse(xhr.responseText)
+                const preco_total = response.newprecoTotal
+                
+                const precototalEl = el.parentNode.querySelector('.preco_total')
+                precototalEl.textContent = '$' + preco_total
+
+
+
+                
+            }else {
+                console.log('algo deu errado')
+            }
+        }
+
+
+
+        xhr.send()
+
+    })
+})
