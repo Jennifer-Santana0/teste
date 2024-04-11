@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+main{
+    display: grid;
+    grid-template-columns: 25% 75%;
+    margin-bottom: 3rem;
+    margin-bottom: 8rem;
+}
+
+#main-1{
+    border-right: 1px solid var(--gray-black);
+}
+#main-1 ul{
+    padding: 1.5rem 7rem;
+}
+#main-1 ul{
+    list-style: none;
+}
+#main-1 ul li{
+    padding: 1rem 0;
+}
+#main-1 ul li a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    white-space: nowrap;
+}
+#main-2{
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+body{
+    overflow: hidden;
+}
+
+
+
+
+
+
+section.slider{
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    padding:  0 !important;
+    overflow: hidden;
+}
+
+.slider-content{
+    width: 400%;
+    height: auto;
+    display: flex;
+}
+
+.slider-content input{
+    display: none;
+}
+
+
+.slider-box{
+    width: 25%;
+    height: auto;
+    text-align: center;
+    background-color: red;
+}
+
+
+.nav-manual, .nav-auto{
+    position: absolute;
+    width: 100%;
+    bottom: 46%;
+    right: -10%;
+    display: flex;
+    justify-content: center;
+}
+.nav-manual .manual-btn, .nav-auto div{
+    border: 1px solid #727070;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.nav-manual .manual-btn:not(:last-child), .nav-auto div:not(:last-child){
+    margin-right: 10px;
+}
+.nav-manual .manual-btn:hover{
+    background-color: #727070;
+}
+
+#radio1:checked ~ .nav-auto .auto-btn1, #radio2:checked ~ .nav-auto .auto-btn2, #radio3:checked ~ .nav-auto .auto-btn3{
+    background-color: #727070;
+}
+
+#radio1:checked ~ .primeiro{
+    margin-left: 0%;
+}
+#radio2:checked ~ .primeiro{
+    margin-left: -25%;
+}
+#radio3:checked ~ .primeiro{
+    margin-left: -50%;
+}
